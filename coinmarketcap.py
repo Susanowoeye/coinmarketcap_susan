@@ -1,11 +1,14 @@
+#imports the need modules
 import requests
 import json
 
+#variable which stores the the api link  gotten with requests.get
 api_request = requests.get("https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=5&convert=USD&CMC_PRO_API_KEY=9de29b5a-a0ad-415b-887a-22bf6f469066")
 api = json.loads(api_request.content)
 print("----------------")
 print("----------------")
 
+#coins variable stores the needed information about the coins using dictionary
 coins = [
     {
         "symbol": "BTC",
@@ -20,12 +23,13 @@ coins = [
 ]
 
 total_pl = 0
-
+#for loop to  run the code if the if condition is met
 for i in range(0, 5):
     for coin in coins:
         if api["data"][i]["symbol"] == coin["symbol"]:
             total_paid = coin["amount_owned"] * coin["price_per_coin"]
             current_value = coin["amount_owned"] * api["data"][i]["quote"]["USD"]["price"]
+            #calculates the profit\loss
             pl_percoin = api["data"][i]["quote"]["USD"]["price"] - coin["price_per_coin"]
             total_pl_coin = pl_percoin * coin["amount_owned"]
 
